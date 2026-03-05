@@ -101,7 +101,7 @@ const Skills = () => {
       <div className="container">
         <SectionTitle 
           title="Technical Skills" 
-          subtitle="Technologies I work with"
+          subtitle="Teknologi yang saya kerjakan"
         />
         
         <motion.div 

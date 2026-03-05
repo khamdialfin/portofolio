@@ -30,7 +30,7 @@ const Contact = () => {
       <div className="container">
         <SectionTitle 
           title="Get In Touch" 
-          subtitle="Let's build something amazing together"
+          subtitle="Mari kita bangun sesuatu yang luar biasa bersama-sama"
         />
         
         <div className="contact-content">
@@ -39,7 +39,7 @@ const Contact = () => {
               <div className="info-icon">📧</div>
               <div>
                 <h4>Email</h4>
-                <p>khalfin@student.example.com</p>
+                <p>khalfinpml@gmail.com</p>
               </div>
             </div>
             
@@ -48,11 +48,11 @@ const Contact = () => {
               <div>
                 <h4>GitHub</h4>
                 <a 
-                  href="https://github.com/khalfin" 
+                  href="https://github.com/khamdialfin" 
                   target="_blank" 
                   rel="noopener noreferrer"
                 >
-                  github.com/khalfin
+                  https://github.com/khamdialfin
                 </a>
               </div>
             </div>
@@ -61,7 +61,7 @@ const Contact = () => {
               <div className="info-icon">💬</div>
               <div>
                 <h4>WhatsApp</h4>
-                <p>+62 812 3456 7890</p>
+                <p>+62 857 4329 4332</p>
               </div>
             </div>
           </div>

@@ -7,32 +7,29 @@ const Experience = () => {
   const experiences = [
     {
       id: 1,
-      title: "Software Engineering Student",
-      company: "University / School Name",
-      period: "2022 - Present",
-      description: "Learning software development principles, algorithms, and modern web technologies."
+      title: "Siswa SMK Jurusan RPL",
+      company: "SMK N 1 SLAWI",
+      period: "2023 - Present",
+      description: "Belajar tentang dasar pemrograman, database, dan pemrograman berbasis web hingga dapat mengusai framework laravel"
     },
     {
       id: 2,
-      title: "Frontend Developer Intern",
-      company: "Tech Company",
-      period: "2023 (3 months)",
-      description: "Developed responsive web interfaces and collaborated with design teams."
+      title: "Mengikuti Lomba LKS Web Technology",
+      company: "Kab. Tegal",
+      period: "2026",
+      description: "Pengalaman dan tantangan baru di percaya oleh sekolah mengikuti lomba lks web technology"
     },
     {
       id: 3,
-      title: "Freelance Web Developer",
-      company: "Self-employed",
-      period: "2021 - Present",
-      description: "Built websites for small businesses and personal projects using modern stacks."
+      title: "Praktik Kerja Lapangan",
+      company: "Yuhlez Software House",
+      period: "2025 - Present",
+      description: "Berkolaborasi dan kontribusi membuat website untuk real project untuk client di YUHLEZ SOFTWARE HOUSE sebagai Back end Developer"
     }
   ];
 
   const certifications = [
-    "React Fundamentals Certification",
-    "Web Development Bootcamp",
-    "JavaScript Algorithms Certification",
-    "Responsive Web Design"
+    "SERTIFIKAT KOMPETENSI LSP P3 JUNIOR WEB DEVELOPER",
   ];
 
   return (
@@ -40,7 +37,7 @@ const Experience = () => {
       <div className="container">
         <SectionTitle 
           title="Experience & Certifications" 
-          subtitle="My learning journey and achievements"
+          subtitle="Perjalanan belajar dan pencapain saya"
         />
         
         <div className="experience-content">

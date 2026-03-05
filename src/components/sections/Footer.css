@@ -1,69 +1,103 @@
 /* Footer.css */
 .footer {
-  background: #0a0f1c;
+  background: linear-gradient(135deg, var(--dark) 0%, var(--dark-light) 100%);
+  color: var(--light);
   padding: 4rem 0 2rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--primary), transparent);
 }
 
 .footer-content {
   display: grid;
-  grid-template-columns: 1fr 2fr;
-  gap: 4rem;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
   margin-bottom: 3rem;
 }
 
-.footer-logo {
-  font-size: 1.5rem;
-  font-weight: bold;
+/* Logo Section */
+.footer-logo h2 {
+  font-size: 1.8rem;
   background: linear-gradient(135deg, var(--primary), var(--secondary));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
 }
 
-.footer-tagline {
+.footer-logo p {
   color: var(--gray);
-  line-height: 1.6;
+  font-size: 0.9rem;
 }
 
-.footer-links {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 2rem;
-}
-
-.links-column h4 {
+/* Links Section */
+.footer-links h3,
+.footer-contact h3,
+.footer-social h3 {
   color: var(--light);
-  margin-bottom: 1rem;
-  font-size: 1.125rem;
+  margin-bottom: 1.2rem;
+  font-size: 1.1rem;
+  position: relative;
+  display: inline-block;
 }
 
-.links-column a {
-  display: block;
+.footer-links h3::after,
+.footer-contact h3::after,
+.footer-social h3::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 30px;
+  height: 2px;
+  background: var(--primary);
+}
+
+.footer-links ul,
+.footer-contact ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-links li {
+  margin-bottom: 0.5rem;
+}
+
+.footer-links a {
   color: var(--gray);
   text-decoration: none;
-  margin-bottom: 0.5rem;
   transition: var(--transition);
+  display: inline-block;
 }
 
-.links-column a:hover {
+.footer-links a:hover {
   color: var(--primary);
   transform: translateX(5px);
 }
 
-.footer-bottom {
-  padding-top: 2rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.copyright {
+/* Contact Section */
+.footer-contact li {
   color: var(--gray);
-  font-size: 0.875rem;
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
+.footer-icon {
+  color: var(--primary);
+  font-size: 1rem;
+}
+
+/* Social Icons */
 .social-icons {
   display: flex;
   gap: 1rem;
@@ -72,35 +106,119 @@
 .social-icon {
   width: 40px;
   height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 50%;
-  color: var(--gray);
+  color: var(--light);
   text-decoration: none;
-  font-size: 1.125rem;
+  font-size: 1.2rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   transition: var(--transition);
 }
 
 .social-icon:hover {
   background: var(--primary);
-  color: white;
+  border-color: var(--primary);
   transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(59, 130, 246, 0.3);
+}
+
+/* Warna spesifik untuk masing-masing platform (opsional) */
+.social-icon[aria-label="GitHub"]:hover {
+  background: #333;
+}
+
+.social-icon[aria-label="LinkedIn"]:hover {
+  background: #0077b5;
+}
+
+.social-icon[aria-label="Instagram"]:hover {
+  background: linear-gradient(45deg, #f09433, #d62976, #962fbf, #4f5bd5);
+}
+
+.social-icon[aria-label="Email"]:hover {
+  background: #ea4335;
+}
+
+/* Footer Bottom */
+.footer-bottom {
+  padding-top: 2rem;
+  margin-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--gray);
+  font-size: 0.9rem;
+}
+
+.copyright {
+  color: var(--gray);
+}
+
+.made-with {
+  color: var(--gray);
+}
+
+.made-with span {
+  color: #ff4d4d;
+  animation: heartbeat 1.5s ease infinite;
+}
+
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+  .footer-content {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 @media (max-width: 768px) {
-  .footer-content {
-    grid-template-columns: 1fr;
+  .footer {
+    padding: 3rem 0 1.5rem;
   }
   
-  .footer-links {
+  .footer-content {
     grid-template-columns: 1fr;
+    gap: 2rem;
   }
   
   .footer-bottom {
     flex-direction: column;
-    gap: 1rem;
     text-align: center;
+    gap: 1rem;
+  }
+  
+  .footer-links h3::after,
+  .footer-contact h3::after,
+  .footer-social h3::after {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  
+  .footer-links,
+  .footer-contact,
+  .footer-social {
+    text-align: center;
+  }
+  
+  .footer-contact li {
+    justify-content: center;
+  }
+  
+  .social-icons {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .social-icons {
+    flex-wrap: wrap;
   }
 }

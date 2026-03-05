@@ -1,6 +1,10 @@
-/* About.css */
+/* About.css - Update lengkap dengan styling untuk foto */
+
 .about {
   background: var(--dark-light);
+  padding: 100px 0;
+  position: relative;
+  overflow: hidden;
 }
 
 .about-content {
@@ -33,6 +37,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  cursor: default;
 }
 
 .highlight-number {
@@ -50,51 +55,126 @@
   text-align: center;
 }
 
-.profile-placeholder {
+/* Styling untuk foto profil */
+.about-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile-photo-container {
   width: 300px;
   height: 300px;
   border-radius: 50%;
-  background: rgba(59, 130, 246, 0.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
   position: relative;
+  overflow: hidden;
   border: 3px solid var(--primary);
+  box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+  cursor: pointer;
 }
 
-.profile-content {
-  position: relative;
+.profile-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.5s ease;
+}
+
+.profile-photo-container:hover .profile-photo {
+  transform: scale(1.1);
+}
+
+/* Overlay gradient yang muncul saat hover */
+.photo-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to top,
+    rgba(59, 130, 246, 0.9),
+    rgba(59, 130, 246, 0.3)
+  );
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  padding-bottom: 2rem;
+  color: white;
+  opacity: 0;
+  transition: opacity 0.3s ease;
   z-index: 2;
 }
 
-.profile-initial {
-  font-size: 6rem;
-  font-weight: bold;
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+.photo-overlay span {
+  display: block;
+  text-align: center;
 }
 
+.photo-overlay span:first-child {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.photo-overlay span:last-child {
+  font-size: 0.9rem;
+  opacity: 0.9;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Efek glow di belakang foto */
 .profile-glow {
   position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   border-radius: 50%;
   background: var(--primary);
-  filter: blur(40px);
-  opacity: 0.3;
-  animation: pulse 2s infinite;
+  filter: blur(20px);
+  opacity: 0.2;
+  z-index: -1;
 }
 
-@keyframes pulse {
-  0%, 100% { opacity: 0.3; }
-  50% { opacity: 0.5; }
+/* Animasi tambahan untuk foto */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.profile-photo-container {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+  .about-content {
+    gap: 3rem;
+  }
+  
+  .profile-photo-container {
+    width: 280px;
+    height: 280px;
+  }
 }
 
 @media (max-width: 768px) {
+  .about {
+    padding: 60px 0;
+  }
+  
   .about-content {
     grid-template-columns: 1fr;
     text-align: center;
+    gap: 3rem;
   }
   
   .about-highlights {
@@ -102,7 +182,43 @@
     flex-wrap: wrap;
   }
   
-  .profile-placeholder {
+  .profile-photo-container {
+    width: 250px;
+    height: 250px;
     margin: 0 auto;
+  }
+  
+  .photo-overlay span:first-child {
+    font-size: 1rem;
+  }
+  
+  .photo-overlay span:last-child {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-photo-container {
+    width: 220px;
+    height: 220px;
+  }
+  
+  .about-paragraph {
+    font-size: 1rem;
+  }
+  
+  .highlight-number {
+    font-size: 1.5rem;
+  }
+  
+  .highlight-text {
+    font-size: 0.75rem;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .about {
+    background: var(--dark-light);
   }
 }

@@ -171,14 +171,14 @@ const Projects = () => {
     }
   };
 
-  const filters = ['all', 'react', 'javascript', 'css'];
+  const filters = [];
 
   return (
     <section id="projects" className="projects">
       <div className="container">
         <SectionTitle 
           title="Featured Projects" 
-          subtitle="Some of my recent work"
+          subtitle="Beberapa karya saya baru-baru ini"
         />
         
         <motion.div 

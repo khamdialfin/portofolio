@@ -117,11 +117,11 @@ const Hero = () => {
         </motion.h1>
         
         <motion.h2 className="hero-subtitle" variants={subtitleVariants}>
-          Software Developer Student
+          Full Stack Web Developer
         </motion.h2>
         
         <motion.p className="hero-tagline" variants={taglineVariants}>
-          Building digital solutions with clean code and modern technologies
+          Membangun solusi digital dengan kode yang bersih dan teknologi modern.
         </motion.p>
         
         <motion.div className="hero-buttons" variants={buttonVariants}>
@@ -131,7 +131,7 @@ const Hero = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            View Projects
+            Lihat Project
           </Button>
           <Button 
             variant="outline" 
@@ -139,7 +139,7 @@ const Hero = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            Contact Me
+            Kontak Saya
           </Button>
         </motion.div>
 
@@ -148,8 +148,8 @@ const Hero = () => {
           className="tech-badges"
           animate={floatingAnimation}
         >
-          <span className="tech-badge">React</span>
-          <span className="tech-badge">JavaScript</span>
+          <span className="tech-badge">Laravel</span>
+          <span className="tech-badge">PHP</span>
           <span className="tech-badge">CSS3</span>
           <span className="tech-badge">HTML5</span>
         </motion.div>

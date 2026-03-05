@@ -2,7 +2,7 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import AnimatedBackground from './components/ui/AnimatedBackground';
-import Navbar from './components/Navbar';
+import Navbar from './components/Navbar.jsx';
 import Hero from './components/sections/Hero.jsx';
 import About from './components/sections/About.jsx';
 import Skills from './components/sections/Skills.jsx';
