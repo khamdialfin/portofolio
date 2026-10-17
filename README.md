@@ -31,7 +31,7 @@ Perintah ini akan menjalankan:
 Anda dapat mengelola seluruh konten portofolio langsung dari website:
 1. Buka website di browser: `http://localhost:3000`
 2. Klik tombol **`⚙️ Admin Panel`** di pojok kanan Navbar.
-3. Masukkan password admin default: **`admin123`**
+3. Masukkan password admin Anda.
 4. Kelola konten:
    - 💼 **Proyek (Projects)**: Upload screenshot project baru, edit judul/deskripsi/tech stack, link GitHub & Live Demo, atau hapus project.
    - 👤 **About Me & Hero**: Edit nama, role subtitle, tagline, paragraf bio 1 & 2, highlight counters (jumlah project, tahun pengalaman, dll), serta upload foto profil baru.

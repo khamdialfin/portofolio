@@ -132,7 +132,7 @@ const AdminModal = () => {
         setPasswordInput('');
         notify('success', 'Mode Lokal: Berhasil masuk ke Dashboard');
       } else {
-        setLoginError('Password salah (Default: admin123)');
+        setLoginError('Password salah. Silakan coba lagi.');
       }
     }
   };
@@ -452,7 +452,7 @@ const AdminModal = () => {
                     <input
                       type="password"
                       className="form-input"
-                      placeholder="Password admin (default: admin123)"
+                      placeholder="Masukkan password admin"
                       value={passwordInput}
                       onChange={(e) => setPasswordInput(e.target.value)}
                       autoFocus
@@ -463,9 +463,6 @@ const AdminModal = () => {
                     Masuk ke Dashboard
                   </button>
                 </form>
-                <div style={{ marginTop: '16px', fontSize: '0.8rem', color: '#64748b' }}>
-                  Default password: <code style={{ color: '#00d2ff' }}>admin123</code>
-                </div>
               </div>
             </div>
           ) : (

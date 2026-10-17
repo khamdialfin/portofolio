@@ -157,7 +157,7 @@ app.post('/api/auth/login', (req, res) => {
     const token = 'auth_token_' + Buffer.from(`admin:${Date.now()}`).toString('base64');
     return res.json({ success: true, token, message: 'Login berhasil' });
   } else {
-    return res.status(401).json({ success: false, message: 'Password salah. Default: admin123' });
+    return res.status(401).json({ success: false, message: 'Password salah. Silakan coba lagi.' });
   }
 });
 

@@ -2,7 +2,6 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import Button from '../ui/Button';
 import { usePortfolio } from '../../contexts/PortfolioContext';
-import { getApiBaseUrl } from '../../services/portfolioService';
 import './Hero.css';
 
 const Hero = () => {
@@ -13,7 +12,6 @@ const Hero = () => {
     tagline: "Membangun solusi digital dengan kode yang bersih dan teknologi modern.",
     badges: ["Laravel", "PHP", "CSS3", "HTML5"]
   };
-  const resumeUrl = `${getApiBaseUrl()}/api/resume/download`;
 
   const heroVariants = {
     hidden: { opacity: 0 },
@@ -143,27 +141,6 @@ const Hero = () => {
           >
             Lihat Project
           </Button>
-          <a 
-            href={resumeUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn btn-outline cv-btn"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '8px',
-              textDecoration: 'none',
-              padding: '12px 24px',
-              borderRadius: '8px',
-              fontWeight: '600',
-              border: '2px solid var(--primary, #00d2ff)',
-              color: 'var(--text-primary, #ffffff)',
-              background: 'rgba(0, 210, 255, 0.1)',
-              transition: 'all 0.3s ease'
-            }}
-          >
-            <span>📄 Unduh Resume</span>
-          </a>
           <Button 
             variant="outline" 
             onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
