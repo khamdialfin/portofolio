@@ -1,6 +1,7 @@
 // App.js
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { PortfolioProvider } from './contexts/PortfolioContext';
 import AnimatedBackground from './components/ui/AnimatedBackground';
 import Navbar from './components/Navbar.jsx';
 import Hero from './components/sections/Hero.jsx';
@@ -10,6 +11,7 @@ import Projects from './components/sections/Projects.jsx';
 import Experience from './components/sections/Experience.jsx';
 import Contact from './components/sections/Contact.jsx';
 import Footer from './components/sections/Footer.jsx';
+import AdminModal from './components/admin/AdminModal.jsx';
 import './App.css';
 
 function App() {
@@ -37,37 +39,40 @@ function App() {
   };
 
   return (
-    <AnimatePresence>
-      <div className="app">
-        <Navbar />
-        <AnimatedBackground />
-        <motion.main
-          initial="hidden"
-          animate="visible"
-          variants={containerVariants}
-        >
-          <motion.div variants={sectionVariants}>
-            <Hero />
-          </motion.div>
-          <motion.div variants={sectionVariants}>
-            <About />
-          </motion.div>
-          <motion.div variants={sectionVariants}>
-            <Skills />
-          </motion.div>
-          <motion.div variants={sectionVariants}>
-            <Projects />
-          </motion.div>
-          <motion.div variants={sectionVariants}>
-            <Experience />
-          </motion.div>
-          <motion.div variants={sectionVariants}>
-            <Contact />
-          </motion.div>
-        </motion.main>
-        <Footer />
-      </div>
-    </AnimatePresence>
+    <PortfolioProvider>
+      <AnimatePresence>
+        <div className="app">
+          <Navbar />
+          <AnimatedBackground />
+          <AdminModal />
+          <motion.main
+            initial="hidden"
+            animate="visible"
+            variants={containerVariants}
+          >
+            <motion.div variants={sectionVariants}>
+              <Hero />
+            </motion.div>
+            <motion.div variants={sectionVariants}>
+              <About />
+            </motion.div>
+            <motion.div variants={sectionVariants}>
+              <Skills />
+            </motion.div>
+            <motion.div variants={sectionVariants}>
+              <Projects />
+            </motion.div>
+            <motion.div variants={sectionVariants}>
+              <Experience />
+            </motion.div>
+            <motion.div variants={sectionVariants}>
+              <Contact />
+            </motion.div>
+          </motion.main>
+          <Footer />
+        </div>
+      </AnimatePresence>
+    </PortfolioProvider>
   );
 }
 

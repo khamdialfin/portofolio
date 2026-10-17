@@ -1,6 +1,7 @@
 // components/Navbar.jsx
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { usePortfolio } from '../contexts/PortfolioContext';
 import './Navbar.css';
 
 const Navbar = () => {
@@ -35,11 +36,14 @@ const Navbar = () => {
     }
   };
 
+  const { setIsAdminOpen } = usePortfolio();
+
   const navItems = [
     { id: 'hero', label: 'Home' },
     { id: 'about', label: 'About' },
     { id: 'skills', label: 'Skills' },
     { id: 'projects', label: 'Projects' },
+    { id: 'experience', label: 'Experience' },
     { id: 'contact', label: 'Contact' }
   ];
 
@@ -79,6 +83,8 @@ const Navbar = () => {
           className="logo"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
+          onClick={() => scrollToSection('hero')}
+          style={{ cursor: 'pointer' }}
         >
           Khalfindev
         </motion.div>
@@ -96,6 +102,29 @@ const Navbar = () => {
               {item.label}
             </motion.button>
           ))}
+          
+          <motion.button
+            className="nav-link admin-nav-btn"
+            onClick={() => setIsAdminOpen(true)}
+            whileHover={{ scale: 1.08 }}
+            whileTap={{ scale: 0.95 }}
+            title="Buka Admin Panel untuk upload project & edit data"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              background: 'linear-gradient(135deg, rgba(0, 210, 255, 0.15), rgba(58, 123, 213, 0.25))',
+              border: '1px solid rgba(0, 210, 255, 0.4)',
+              borderRadius: '20px',
+              padding: '6px 14px',
+              color: '#00d2ff',
+              fontWeight: '600',
+              cursor: 'pointer',
+              marginLeft: '8px'
+            }}
+          >
+            <span>⚙️ Admin Panel</span>
+          </motion.button>
         </div>
 
         {/* Mobile Menu Button */}
@@ -137,6 +166,25 @@ const Navbar = () => {
                   {item.label}
                 </motion.button>
               ))}
+
+              <motion.button
+                className="mobile-nav-link"
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  setIsAdminOpen(true);
+                }}
+                variants={mobileItemVariants}
+                style={{
+                  color: '#00d2ff',
+                  fontWeight: 'bold',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  marginTop: '10px'
+                }}
+              >
+                <span>⚙️ Admin Panel (Edit & Upload)</span>
+              </motion.button>
             </motion.div>
           )}
         </AnimatePresence>

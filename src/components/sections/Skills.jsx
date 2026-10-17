@@ -1,8 +1,8 @@
-// components/sections/Skills.jsx
 import React from 'react';
 import { motion } from 'framer-motion';
 import SectionTitle from '../ui/SectionTitle';
-import { skills } from '../../data/skills';
+import { usePortfolio } from '../../contexts/PortfolioContext';
+import { skills as fallbackSkills } from '../../data/skills';
 import './Skills.css';
 
 const SkillBar = ({ name, level }) => {
@@ -61,6 +61,12 @@ const SkillBar = ({ name, level }) => {
 };
 
 const Skills = () => {
+  const { portfolio } = usePortfolio();
+  const currentSkills = portfolio?.skills || fallbackSkills;
+  const programming = currentSkills.programming || [];
+  const frameworks = currentSkills.frameworks || [];
+  const tools = currentSkills.tools || [];
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -84,24 +90,12 @@ const Skills = () => {
     }
   };
 
-  const iconVariants = {
-    hidden: { opacity: 0, scale: 0 },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      transition: {
-        duration: 0.4,
-        ease: "backOut"
-      }
-    }
-  };
-
   return (
     <section id="skills" className="skills">
       <div className="container">
         <SectionTitle 
           title="Technical Skills" 
-          subtitle="Teknologi yang saya kerjakan"
+          subtitle="Teknologi dan keahlian yang saya kuasai"
         />
         
         <motion.div 
@@ -121,8 +115,8 @@ const Skills = () => {
           >
             <h3 className="category-title">Programming</h3>
             <div className="skills-list">
-              {skills.programming.map((skill, index) => (
-                <SkillBar key={index} {...skill} />
+              {programming.map((skill, index) => (
+                <SkillBar key={skill.id || index} {...skill} />
               ))}
             </div>
           </motion.div>
@@ -137,8 +131,8 @@ const Skills = () => {
           >
             <h3 className="category-title">Frameworks & Libraries</h3>
             <div className="skills-list">
-              {skills.frameworks.map((skill, index) => (
-                <SkillBar key={index} {...skill} />
+              {frameworks.map((skill, index) => (
+                <SkillBar key={skill.id || index} {...skill} />
               ))}
             </div>
           </motion.div>
@@ -153,8 +147,8 @@ const Skills = () => {
           >
             <h3 className="category-title">Tools & Platforms</h3>
             <div className="skills-list">
-              {skills.tools.map((skill, index) => (
-                <SkillBar key={index} {...skill} />
+              {tools.map((skill, index) => (
+                <SkillBar key={skill.id || index} {...skill} />
               ))}
             </div>
           </motion.div>

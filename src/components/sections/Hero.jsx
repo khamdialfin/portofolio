@@ -1,10 +1,20 @@
-// components/sections/Hero.jsx
 import React from 'react';
 import { motion } from 'framer-motion';
 import Button from '../ui/Button';
+import { usePortfolio } from '../../contexts/PortfolioContext';
+import { getApiBaseUrl } from '../../services/portfolioService';
 import './Hero.css';
 
 const Hero = () => {
+  const { portfolio } = usePortfolio();
+  const hero = portfolio?.hero || {
+    name: "Khamdi Alfin Mualif",
+    subtitle: "Full Stack Web Developer",
+    tagline: "Membangun solusi digital dengan kode yang bersih dan teknologi modern.",
+    badges: ["Laravel", "PHP", "CSS3", "HTML5"]
+  };
+  const resumeUrl = `${getApiBaseUrl()}/api/resume/download`;
+
   const heroVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -113,29 +123,50 @@ const Hero = () => {
         animate="visible"
       >
         <motion.h1 className="hero-title" variants={titleVariants}>
-          <span className="gradient-text">Khamdi Alfin Mualif</span>
+          <span className="gradient-text">{hero.name}</span>
         </motion.h1>
         
         <motion.h2 className="hero-subtitle" variants={subtitleVariants}>
-          Full Stack Web Developer
+          {hero.subtitle}
         </motion.h2>
         
         <motion.p className="hero-tagline" variants={taglineVariants}>
-          Membangun solusi digital dengan kode yang bersih dan teknologi modern.
+          {hero.tagline}
         </motion.p>
         
         <motion.div className="hero-buttons" variants={buttonVariants}>
           <Button 
             variant="primary" 
-            onClick={() => document.getElementById('projects').scrollIntoView()}
+            onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
             Lihat Project
           </Button>
+          <a 
+            href={resumeUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn-outline cv-btn"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '8px',
+              textDecoration: 'none',
+              padding: '12px 24px',
+              borderRadius: '8px',
+              fontWeight: '600',
+              border: '2px solid var(--primary, #00d2ff)',
+              color: 'var(--text-primary, #ffffff)',
+              background: 'rgba(0, 210, 255, 0.1)',
+              transition: 'all 0.3s ease'
+            }}
+          >
+            <span>📄 Unduh Resume</span>
+          </a>
           <Button 
             variant="outline" 
-            onClick={() => document.getElementById('contact').scrollIntoView()}
+            onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -148,10 +179,9 @@ const Hero = () => {
           className="tech-badges"
           animate={floatingAnimation}
         >
-          <span className="tech-badge">Laravel</span>
-          <span className="tech-badge">PHP</span>
-          <span className="tech-badge">CSS3</span>
-          <span className="tech-badge">HTML5</span>
+          {(hero.badges || ['Laravel', 'PHP', 'CSS3', 'HTML5']).map((badge, idx) => (
+            <span key={idx} className="tech-badge">{badge}</span>
+          ))}
         </motion.div>
         
         <motion.div 

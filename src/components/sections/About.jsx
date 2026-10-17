@@ -2,13 +2,16 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import SectionTitle from '../ui/SectionTitle';
+import { usePortfolio } from '../../contexts/PortfolioContext';
+import { formatImageUrl, getApiBaseUrl } from '../../services/portfolioService';
+import fotoKhamdi from '../../assets/images/passfoto.jpg';
 import './About.css';
 
-// Import foto dari assets folder
-// Pastikan nama file sesuai dengan yang Anda simpan
-import fotoKhamdi from '../../assets/images/passfoto.jpg';
-
 const About = () => {
+  const { portfolio } = usePortfolio();
+  const about = portfolio?.about || {};
+  const resumeUrl = `${getApiBaseUrl()}/api/resume/download`;
+
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -16,7 +19,6 @@ const About = () => {
   });
 
   const y = useTransform(scrollYProgress, [0, 1], [100, -100]);
-  const opacity = useTransform(scrollYProgress, [0, 0.5, 1], [0, 1, 0]);
 
   const textVariants = {
     hidden: { opacity: 0, x: -50 },
@@ -55,11 +57,13 @@ const About = () => {
     }
   };
 
-  const highlights = [
+  const highlights = about.highlights && about.highlights.length > 0 ? about.highlights : [
     { number: "50+", text: "Projects Completed" },
     { number: "2+", text: "Years Experience" },
     { number: "100%", text: "Passion for Coding" }
   ];
+
+  const profileImgSrc = about.profileImage ? formatImageUrl(about.profileImage) : fotoKhamdi;
 
   return (
     <section id="about" className="about" ref={ref}>
@@ -75,15 +79,10 @@ const About = () => {
             viewport={{ once: true, amount: 0.3 }}
           >
             <motion.p className="about-paragraph" variants={textVariants}>
-              Saya adalah siswa SMK jurusan Rekayasa Perangkat Lunak (RPL) yang memiliki ketertarikan besar dalam dunia pengembangan web.
-              Ketertarikan saya dimulai dari rasa ingin tahu tentang bagaimana sebuah website bekerja, hingga akhirnya berkembang menjadi
-              perjalanan belajar yang serius dalam membangun solusi digital melalui pemrograman. Saya terus mengasah kemampuan dengan mempelajari
-              berbagai teknologi web modern dan menerapkannya dalam berbagai proyek pengembangan.
+              {about.paragraph1 || "Saya adalah siswa SMK jurusan Rekayasa Perangkat Lunak (RPL) yang memiliki ketertarikan besar dalam dunia pengembangan web."}
             </motion.p>
             <motion.p className="about-paragraph" variants={textVariants}>
-              Saat ini saya berfokus pada pengembangan website menggunakan teknologi modern seperti HTML, CSS, JavaScript, dan php serta framework pendukung seperti Bootstrap, codeigniter, hingga Laravel.
-              Saya menikmati proses memecahkan masalah nyata melalui kode dan selalu berusaha menulis kode yang bersih, terstruktur, serta mudah dikembangkan. Melalui portofolio ini, 
-              saya ingin menunjukkan kemampuan teknis, proyek yang telah saya kerjakan, serta semangat saya untuk terus berkembang sebagai web developer.
+              {about.paragraph2 || "Saat ini saya berfokus pada pengembangan website menggunakan teknologi modern seperti HTML, CSS, JavaScript, dan PHP serta framework pendukung seperti Bootstrap, CodeIgniter, hingga Laravel."}
             </motion.p>
             
             <motion.div 
@@ -102,6 +101,30 @@ const About = () => {
                   <span className="highlight-text">{highlight.text}</span>
                 </motion.div>
               ))}
+            </motion.div>
+
+            <motion.div style={{ marginTop: '24px' }}>
+              <a
+                href={resumeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="resume-download-link"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  color: 'var(--primary, #00d2ff)',
+                  textDecoration: 'none',
+                  fontSize: '0.95rem',
+                  fontWeight: '600',
+                  padding: '8px 16px',
+                  borderRadius: '6px',
+                  background: 'rgba(0, 210, 255, 0.08)',
+                  border: '1px solid rgba(0, 210, 255, 0.3)'
+                }}
+              >
+                <span>📥 Unduh CV Lengkap (PDF)</span>
+              </a>
             </motion.div>
           </motion.div>
           
@@ -128,9 +151,12 @@ const About = () => {
             >
               {/* Foto profil */}
               <img 
-                src={fotoKhamdi} 
+                src={profileImgSrc} 
                 alt="Khamdi Alfin - Web Developer"
                 className="profile-photo"
+                onError={(e) => {
+                  e.currentTarget.src = fotoKhamdi;
+                }}
               />
               
               {/* Overlay gradient yang muncul saat hover */}

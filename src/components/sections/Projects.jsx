@@ -3,7 +3,10 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import SectionTitle from '../ui/SectionTitle';
 import Card from '../ui/Card';
-import { projects } from '../../data/projects';
+import { usePortfolio } from '../../contexts/PortfolioContext';
+import { formatImageUrl } from '../../services/portfolioService';
+import { projects as fallbackProjects } from '../../data/projects';
+import defaultProjectImg from '../../assets/images/pos.png';
 import './Projects.css';
 
 const ProjectCard = ({ project, index }) => {
@@ -16,7 +19,7 @@ const ProjectCard = ({ project, index }) => {
       y: 0,
       transition: {
         duration: 0.6,
-        delay: index * 0.2,
+        delay: index * 0.15,
         ease: "easeOut"
       }
     }
@@ -24,7 +27,7 @@ const ProjectCard = ({ project, index }) => {
 
   const imageVariants = {
     hover: {
-      scale: 1.1,
+      scale: 1.08,
       transition: { duration: 0.3 }
     }
   };
@@ -46,36 +49,49 @@ const ProjectCard = ({ project, index }) => {
     }
   };
 
+  const imgSrc = formatImageUrl(project.image) || defaultProjectImg;
+
   return (
     <motion.div
       variants={cardVariants}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, amount: 0.3 }}
-      whileHover={{ y: -20 }}
+      viewport={{ once: true, amount: 0.2 }}
+      whileHover={{ y: -15 }}
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
     >
       <Card className="project-card">
         <div className="project-image">
           <motion.img 
-            src={project.image} 
+            src={imgSrc} 
             alt={project.title}
             variants={imageVariants}
             animate={isHovered ? "hover" : "initial"}
+            onError={(e) => {
+              e.currentTarget.src = defaultProjectImg;
+            }}
           />
           <motion.div 
             className="project-overlay"
             variants={overlayVariants}
             animate={isHovered ? "visible" : "hidden"}
           >
-            <motion.button 
-              className="view-demo-btn"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-            >
-              View Demo
-            </motion.button>
+            {project.demo ? (
+              <motion.a 
+                href={project.demo}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="view-demo-btn"
+                style={{ textDecoration: 'none', display: 'inline-block' }}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+              >
+                View Demo
+              </motion.a>
+            ) : (
+              <span className="view-demo-btn" style={{ opacity: 0.7 }}>Internal Project</span>
+            )}
           </motion.div>
         </div>
         <div className="project-content">
@@ -148,6 +164,8 @@ const ProjectCard = ({ project, index }) => {
 };
 
 const Projects = () => {
+  const { portfolio } = usePortfolio();
+  const projectList = portfolio?.projects && portfolio.projects.length > 0 ? portfolio.projects : fallbackProjects;
   const [filter, setFilter] = useState('all');
 
   const containerVariants = {
@@ -155,7 +173,7 @@ const Projects = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.2
+        staggerChildren: 0.15
       }
     }
   };
@@ -171,45 +189,53 @@ const Projects = () => {
     }
   };
 
-  const filters = [];
+  // Collect unique technologies for quick filtering
+  const allTechs = Array.from(new Set(projectList.flatMap(p => p.tech || []))).slice(0, 5);
+  const filters = ['all', ...allTechs];
+
+  const filteredProjects = filter === 'all' 
+    ? projectList 
+    : projectList.filter(p => (p.tech || []).includes(filter));
 
   return (
     <section id="projects" className="projects">
       <div className="container">
         <SectionTitle 
           title="Featured Projects" 
-          subtitle="Beberapa karya saya baru-baru ini"
+          subtitle="Beberapa karya dan aplikasi yang telah saya bangun"
         />
         
-        <motion.div 
-          className="projects-filters"
-          variants={filterVariants}
-          initial="hidden"
-          animate="visible"
-        >
-          {filters.map((filterItem) => (
-            <motion.button
-              key={filterItem}
-              className={`filter-btn ${filter === filterItem ? 'active' : ''}`}
-              onClick={() => setFilter(filterItem)}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-            >
-              {filterItem.charAt(0).toUpperCase() + filterItem.slice(1)}
-            </motion.button>
-          ))}
-        </motion.div>
+        {filters.length > 1 && (
+          <motion.div 
+            className="projects-filters"
+            variants={filterVariants}
+            initial="hidden"
+            animate="visible"
+          >
+            {filters.map((filterItem) => (
+              <motion.button
+                key={filterItem}
+                className={`filter-btn ${filter === filterItem ? 'active' : ''}`}
+                onClick={() => setFilter(filterItem)}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                {filterItem === 'all' ? 'Semua Proyek' : filterItem}
+              </motion.button>
+            ))}
+          </motion.div>
+        )}
         
         <motion.div 
           className="projects-grid"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
+          viewport={{ once: true, amount: 0.1 }}
           layout
         >
-          {projects.map((project, index) => (
-            <ProjectCard key={project.id} project={project} index={index} />
+          {filteredProjects.map((project, index) => (
+            <ProjectCard key={project.id || index} project={project} index={index} />
           ))}
         </motion.div>
       </div>

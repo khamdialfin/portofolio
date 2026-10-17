@@ -1,70 +1,90 @@
-# Getting Started with Create React App
+# Developer Portfolio (Dynamic Fullstack with Admin CMS)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Portofolio web modern dan dinamis untuk **Khamdi Alfin Mualif** dengan backend REST API (Express.js) dan dashboard pengelolaan konten terintegrasi (Admin Panel).
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## 🚀 Cara Menjalankan
 
-### `npm start`
+### 1. Menjalankan Frontend & Backend Sekaligus (Rekomendasi)
+```bash
+npm run dev
+```
+Perintah ini akan menjalankan:
+- **Backend API Server**: `http://localhost:5000`
+- **Frontend React Web**: `http://localhost:3000`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### 2. Menjalankan Secara Terpisah (Opsional)
+* **Jalankan Backend Server saja:**
+  ```bash
+  npm run server
+  ```
+* **Jalankan Frontend React saja:**
+  ```bash
+  npm start
+  ```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+---
 
-### `npm test`
+## ⚙️ Fitur Admin Panel (CMS)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Anda dapat mengelola seluruh konten portofolio langsung dari website:
+1. Buka website di browser: `http://localhost:3000`
+2. Klik tombol **`⚙️ Admin Panel`** di pojok kanan Navbar.
+3. Masukkan password admin default: **`admin123`**
+4. Kelola konten:
+   - 💼 **Proyek (Projects)**: Upload screenshot project baru, edit judul/deskripsi/tech stack, link GitHub & Live Demo, atau hapus project.
+   - 👤 **About Me & Hero**: Edit nama, role subtitle, tagline, paragraf bio 1 & 2, highlight counters (jumlah project, tahun pengalaman, dll), serta upload foto profil baru.
+   - ⚡ **Keahlian (Skills)**: Tambah skill baru di kategori *Programming*, *Frameworks*, atau *Tools* dengan slider persentase tingkat kemampuan (0–100%).
+   - 🏆 **Pengalaman & Sertifikat**: Tambah timeline pengalaman baru (posisi, nama instansi/sekolah, periode, deskripsi) dan sertifikat prestasi.
+   - 📄 **Resume / CV**: Unggah file resume baru (PDF / DOCX) dengan tombol tes unduh langsung.
 
-### `npm run build`
+---
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 📂 Struktur Proyek
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```
+portofolioweb/
+├── server/
+│   ├── index.js                  # Express.js REST API & Multer Storage
+│   ├── data/
+│   │   └── portfolio.json        # Database JSON terstruktur (Auto-saved)
+│   └── uploads/                  # Folder file upload (disajikan via HTTP)
+│       ├── projects/             # Gambar screenshot project
+│       ├── profile/              # Foto profil (passfoto)
+│       └── resume/               # File resume / CV PDF
+├── src/
+│   ├── components/
+│   │   ├── admin/
+│   │   │   ├── AdminModal.jsx    # Dashboard Admin CMS dengan autentikasi
+│   │   │   └── AdminModal.css    # Styling Glassmorphism modern
+│   │   ├── sections/             # Section Hero, About, Skills, Projects, Experience, Contact
+│   │   └── Navbar.jsx            # Navigasi dengan tombol CV & Admin Panel
+│   ├── contexts/
+│   │   └── PortfolioContext.jsx  # State management global dinamis
+│   └── services/
+│       └── portfolioService.js   # Client HTTP API dengan offline fallback
+└── package.json
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+---
 
-### `npm run eject`
+## 📡 API Endpoints
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+| Metode | Endpoint | Keterangan |
+| :--- | :--- | :--- |
+| `GET` | `/api/portfolio` | Mengambil seluruh data portofolio |
+| `POST` | `/api/auth/login` | Login admin dengan password |
+| `PUT` | `/api/hero` | Memperbarui nama, role, dan tagline hero |
+| `PUT` | `/api/about` | Memperbarui bio paragraf & upload foto profil |
+| `GET` | `/api/projects` | Mengambil daftar seluruh proyek |
+| `POST` | `/api/projects` | Menambahkan proyek baru beserta upload gambar |
+| `PUT` | `/api/projects/:id` | Mengedit proyek yang ada |
+| `DELETE` | `/api/projects/:id` | Menghapus proyek |
+| `PUT` | `/api/skills` | Memperbarui daftar skill keahlian |
+| `POST` | `/api/skills/:category` | Menambah skill ke kategori tertentu |
+| `DELETE` | `/api/skills/:category/:id` | Menghapus skill |
+| `PUT` | `/api/experience` | Memperbarui timeline & sertifikasi |
+| `POST` | `/api/resume` | Mengunggah file CV / resume baru |
+| `GET` | `/api/resume/download` | Mengunduh file CV / resume aktif |
+| `GET` | `/uploads/*` | Akses langsung ke file gambar & dokumen yang diunggah |
