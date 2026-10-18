@@ -19,12 +19,40 @@ const PROJECTS_UPLOAD_DIR = path.join(UPLOADS_DIR, 'projects');
 const PROFILE_UPLOAD_DIR = path.join(UPLOADS_DIR, 'profile');
 const RESUME_UPLOAD_DIR = path.join(UPLOADS_DIR, 'resume');
 
+// Mirror paths in public/ for static production deployment (e.g. Vercel)
+const PUBLIC_DIR = path.join(__dirname, '..', 'public');
+const PUBLIC_DATA_FILE = path.join(PUBLIC_DIR, 'data', 'portfolio.json');
+const PUBLIC_UPLOADS_DIR = path.join(PUBLIC_DIR, 'uploads');
+const PUBLIC_PROJECTS_DIR = path.join(PUBLIC_UPLOADS_DIR, 'projects');
+const PUBLIC_PROFILE_DIR = path.join(PUBLIC_UPLOADS_DIR, 'profile');
+const PUBLIC_RESUME_DIR = path.join(PUBLIC_UPLOADS_DIR, 'resume');
+
 // Ensure directories exist
-[UPLOADS_DIR, PROJECTS_UPLOAD_DIR, PROFILE_UPLOAD_DIR, RESUME_UPLOAD_DIR, path.dirname(DATA_FILE)].forEach(dir => {
+[
+  UPLOADS_DIR, PROJECTS_UPLOAD_DIR, PROFILE_UPLOAD_DIR, RESUME_UPLOAD_DIR, path.dirname(DATA_FILE),
+  PUBLIC_UPLOADS_DIR, PUBLIC_PROJECTS_DIR, PUBLIC_PROFILE_DIR, PUBLIC_RESUME_DIR, path.dirname(PUBLIC_DATA_FILE)
+].forEach(dir => {
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir, { recursive: true });
   }
 });
+
+// Helper: sync uploaded file to public/
+function syncFileToPublic(subfolder, filename) {
+  try {
+    const src = path.join(UPLOADS_DIR, subfolder, filename);
+    const destDir = path.join(PUBLIC_UPLOADS_DIR, subfolder);
+    if (!fs.existsSync(destDir)) {
+      fs.mkdirSync(destDir, { recursive: true });
+    }
+    const dest = path.join(destDir, filename);
+    if (fs.existsSync(src)) {
+      fs.copyFileSync(src, dest);
+    }
+  } catch (err) {
+    console.warn(`Notice: Could not sync ${filename} to public/${subfolder}:`, err.message);
+  }
+}
 
 // Auto-seed existing images from src/assets/images if available
 const SRC_IMAGES_DIR = path.join(__dirname, '..', 'src', 'assets', 'images');
@@ -37,9 +65,11 @@ if (fs.existsSync(SRC_IMAGES_DIR)) {
         if (file === 'passfoto.jpg') {
           const dest = path.join(PROFILE_UPLOAD_DIR, file);
           if (!fs.existsSync(dest)) fs.copyFileSync(srcPath, dest);
+          syncFileToPublic('profile', file);
         } else if (file.endsWith('.png') || file.endsWith('.jpg') || file.endsWith('.jpeg') || file.endsWith('.webp')) {
           const dest = path.join(PROJECTS_UPLOAD_DIR, file);
           if (!fs.existsSync(dest)) fs.copyFileSync(srcPath, dest);
+          syncFileToPublic('projects', file);
         }
       }
     });
@@ -53,6 +83,7 @@ const sampleResumePath = path.join(RESUME_UPLOAD_DIR, 'CV_Khamdi_Alfin.pdf');
 if (!fs.existsSync(sampleResumePath)) {
   try {
     fs.writeFileSync(sampleResumePath, '%PDF-1.4\n1 0 obj\n<< /Title (Curriculum Vitae - Khamdi Alfin Mualif) >>\nendobj\ntrailer\n<< /Root 1 0 R >>\n%%EOF');
+    syncFileToPublic('resume', 'CV_Khamdi_Alfin.pdf');
   } catch (err) {
     console.error('Notice: could not create sample resume:', err.message);
   }
@@ -75,12 +106,24 @@ function getPortfolioData() {
   }
 }
 
-// Helper: save portfolio data safely (atomic write)
+// Helper: save portfolio data safely (atomic write and sync to public/)
 function savePortfolioData(data) {
   try {
     const tempFile = `${DATA_FILE}.tmp`;
     fs.writeFileSync(tempFile, JSON.stringify(data, null, 2), 'utf8');
     fs.renameSync(tempFile, DATA_FILE);
+
+    // Sync to public/data/portfolio.json so git push and Vercel automatically get updated data
+    try {
+      const publicDataDir = path.dirname(PUBLIC_DATA_FILE);
+      if (!fs.existsSync(publicDataDir)) {
+        fs.mkdirSync(publicDataDir, { recursive: true });
+      }
+      fs.copyFileSync(DATA_FILE, PUBLIC_DATA_FILE);
+    } catch (syncErr) {
+      console.warn('Could not sync to public/data/portfolio.json:', syncErr.message);
+    }
+
     return true;
   } catch (err) {
     console.error('Error saving portfolio.json:', err);
@@ -202,6 +245,7 @@ app.put('/api/about', uploadProfile.single('profileImage'), (req, res) => {
   // Handle uploaded photo
   if (req.file) {
     data.about.profileImage = `/uploads/profile/${req.file.filename}`;
+    syncFileToPublic('profile', req.file.filename);
   }
 
   if (savePortfolioData(data)) {
@@ -240,6 +284,7 @@ app.post('/api/projects', uploadProject.single('image'), (req, res) => {
   let imageUrl = '/uploads/projects/pos.png';
   if (req.file) {
     imageUrl = `/uploads/projects/${req.file.filename}`;
+    syncFileToPublic('projects', req.file.filename);
   } else if (req.body.imageUrl) {
     imageUrl = req.body.imageUrl;
   }
@@ -297,6 +342,7 @@ app.put('/api/projects/:id', uploadProject.single('image'), (req, res) => {
 
   if (req.file) {
     currentProject.image = `/uploads/projects/${req.file.filename}`;
+    syncFileToPublic('projects', req.file.filename);
   } else if (req.body.imageUrl) {
     currentProject.image = req.body.imageUrl;
   }
@@ -531,6 +577,7 @@ app.post('/api/resume', uploadResume.single('resume'), (req, res) => {
   };
 
   data.resume = newResume;
+  syncFileToPublic('resume', req.file.filename);
 
   if (savePortfolioData(data)) {
     res.json({ success: true, message: 'Resume berhasil diupload', resume: newResume });

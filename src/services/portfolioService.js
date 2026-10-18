@@ -11,7 +11,15 @@ export const formatImageUrl = (img) => {
   if (img.startsWith('http://') || img.startsWith('https://') || img.startsWith('data:')) {
     return img;
   }
+  if (img.startsWith('/assets-fallback/')) {
+    return img.replace('/assets-fallback/', '/uploads/profile/');
+  }
   if (img.startsWith('/uploads')) {
+    // Di environment production atau jika REACT_APP_API_URL tidak di-set khusus,
+    // gunakan relative path agar gambar diload langsung dari public/ host (seperti Vercel)
+    if (process.env.NODE_ENV === 'production' || !process.env.REACT_APP_API_URL) {
+      return img;
+    }
     return `${API_BASE}${img}`;
   }
   return img;
@@ -21,26 +29,28 @@ export const formatImageUrl = (img) => {
 export const DEFAULT_PORTFOLIO = {
   hero: {
     name: "Khamdi Alfin Mualif",
-    subtitle: "Full Stack Web Developer",
-    tagline: "Membangun solusi digital dengan kode yang bersih dan teknologi modern.",
+    subtitle: "Technology Enthusiast ",
+    tagline: "Membangun Technology untuk manfaat dunia",
     badges: ["Laravel", "PHP", "JavaScript", "React", "CSS3", "HTML5"]
   },
   about: {
-    paragraph1: "Saya adalah siswa SMK jurusan Rekayasa Perangkat Lunak (RPL) yang memiliki ketertarikan besar dalam dunia pengembangan web. Ketertarikan saya dimulai dari rasa ingin tahu tentang bagaimana sebuah website bekerja, hingga akhirnya berkembang menjadi perjalanan belajar yang serius dalam membangun solusi digital melalui pemrograman. Saya terus mengasah kemampuan dengan mempelajari berbagai teknologi web modern dan menerapkannya dalam berbagai proyek pengembangan.",
-    paragraph2: "Saat ini saya berfokus pada pengembangan website menggunakan teknologi modern seperti HTML, CSS, JavaScript, dan php serta framework pendukung seperti Bootstrap, codeigniter, hingga Laravel. Saya menikmati proses memecahkan masalah nyata melalui kode dan selalu berusaha menulis kode yang bersih, terstruktur, serta mudah dikembangkan. Melalui portofolio ini, saya ingin menunjukkan kemampuan teknis, proyek yang telah saya kerjakan, serta semangat saya untuk terus berkembang sebagai web developer.",
+    paragraph1: "Saya adalah mahasiswa D4 Mekatronika di Politeknik Elektronika Negeri Surabaya (PENS) dengan latar belakang Rekayasa Perangkat Lunak (RPL). Ketertarikan saya terhadap teknologi berawal dari pemrograman dan pengembangan aplikasi, yang mendorong saya untuk terus belajar membangun solusi digital melalui kode dan pemecahan masalah.\r\n\r\nSaya memiliki pengalaman dalam pengembangan web dan basis data, serta pengalaman praktik kerja lapangan di industri perangkat lunak. Pengalaman tersebut membentuk kedisiplinan, kemampuan beradaptasi, dan kebiasaan belajar secara mandiri. Saya juga tertarik mengeksplorasi bagaimana perangkat lunak dapat terintegrasi dengan perangkat keras untuk menciptakan teknologi yang lebih cerdas dan bermanfaat.",
+    paragraph2: "Saat ini, saya berfokus memperluas kemampuan dari pengembangan perangkat lunak menuju pemrograman C/C++, Python, embedded systems, robotika, dan otomasi. Ke depannya, saya ingin berkontribusi dalam pengembangan teknologi yang mengintegrasikan software, sistem kendali, dan perangkat keras untuk menyelesaikan permasalahan nyata serta memberikan manfaat bagi masyarakat.",
     highlights: [
       { number: "50+", text: "Projects Completed" },
-      { number: "2+", text: "Years Experience" },
+      { number: "3+", text: "Years Experience" },
       { number: "100%", text: "Passion for Coding" }
     ],
-    profileImage: ""
+    profileImage: "/uploads/profile/passfoto.jpg"
   },
   skills: {
     programming: [
       { id: "skill-1", name: "HTML5", level: 90 },
       { id: "skill-2", name: "CSS3", level: 85 },
       { id: "skill-3", name: "JavaScript", level: 75 },
-      { id: "skill-4", name: "PHP", level: 85 }
+      { id: "skill-4", name: "PHP", level: 85 },
+      { id: "skill-1792263971015", name: "C++ ", level: 75 },
+      { id: "skill-1792263988244", name: "Phyton", level: 70 }
     ],
     frameworks: [
       { id: "skill-5", name: "Laravel", level: 90 },
@@ -52,15 +62,34 @@ export const DEFAULT_PORTFOLIO = {
       { id: "skill-9", name: "Git & GitHub", level: 90 },
       { id: "skill-10", name: "VS Code", level: 90 },
       { id: "skill-11", name: "Laragon / XAMPP", level: 90 },
-      { id: "skill-12", name: "Figma", level: 80 }
+      { id: "skill-12", name: "Figma", level: 80 },
+      { id: "skill-1792264028063", name: "Antigravity", level: 90 }
     ]
   },
   projects: [
     {
+      id: "proj-1792265744225",
+      title: "Arshaka Bakery",
+      description: "Website toko roti dengan fitur informasi toko, contact, lokasi, fitur pencarian produk, pilih dan order produk via whatsapp",
+      image: "/uploads/projects/project-1792265744174-83984397.png",
+      tech: ["Google Sites"],
+      github: "",
+      demo: "https://www.arshakabakery.my.id"
+    },
+    {
+      id: "proj-1792264933836",
+      title: "Aplikasi Ecommerce Bookshop",
+      description: "Aplikasi Ecommerce bookshop aplikasi pembelian buku khusunya buku novel secara online, dengan fitur keranjang produk, checkout produk, dashboar admin untuk mengelola pesanan dan informasi pesanan.",
+      image: "/uploads/projects/project-1792264981071-852195803.png",
+      tech: ["Laravel", "Bootstrap", "Mysql", "Javascript"],
+      github: "https://github.com/khamdialfin/shop",
+      demo: ""
+    },
+    {
       id: "proj-1",
       title: "HadirIN",
       description: "Aplikasi berbasis web untuk absensi siswa menggunakan scan QR dengan konfigurasi API whatsapp gateaway untuk notifikasi pada orang tua, dengan fitur tambahan kas kelas pada bendahara.",
-      image: `${API_BASE}/uploads/projects/absen.png`,
+      image: "/uploads/projects/absen.png",
       tech: ["Laravel", "Bootstrap", "Github", "MySQL"],
       github: "https://github.com/khamdialfin/absen",
       demo: "https://demo.com"
@@ -69,7 +98,7 @@ export const DEFAULT_PORTFOLIO = {
       id: "proj-2",
       title: "POS (POINT OF SALES)",
       description: "Website Point of Sale (POS) yang dirancang untuk mempercepat transaksi ritel dan F&B. Dilengkapi dengan manajemen inventaris real-time, dasbor pelaporan penjualan. Sistem ini membantu UMKM mengelola operasional dengan lebih akurat dan efisien.",
-      image: `${API_BASE}/uploads/projects/pos.png`,
+      image: "/uploads/projects/pos.png",
       tech: ["Laravel", "Bootstrap", "Javascript", "MySQL"],
       github: "https://github.com/khamdialfin/pos",
       demo: "https://demo.com"
@@ -78,7 +107,7 @@ export const DEFAULT_PORTFOLIO = {
       id: "proj-3",
       title: "Landing Page Santri Bumi",
       description: "Membuat landing program kerja pesantren mujtamamadani yang bernama santri bumi, ini adalah pembuatan landing page real project atas dasar permintaan client, dengan tampilan yang menarik dan juga responsive design.",
-      image: `${API_BASE}/uploads/projects/santribumi.png`,
+      image: "/uploads/projects/santribumi.png",
       tech: ["HTML", "Bootstrap", "CSS3"],
       github: "https://github.com/khamdialfin/santriBumi",
       demo: "https://santribumi.mujtamamadani.ac.id/index.html"
@@ -87,7 +116,7 @@ export const DEFAULT_PORTFOLIO = {
       id: "proj-4",
       title: "Javascript Kalkulator",
       description: "Membuat kalkulator dengan javascript yang sederhana, dengan background yang mencolok dan animasi-animasi yang menarik.",
-      image: `${API_BASE}/uploads/projects/kalkulator.png`,
+      image: "/uploads/projects/kalkulator.png",
       tech: ["HTML", "CSS3", "Javascript"],
       github: "https://github.com/khamdialfin/kalkulator-javascript",
       demo: "https://khamdialfin.github.io/kalkulator-javascript/"
@@ -96,7 +125,7 @@ export const DEFAULT_PORTFOLIO = {
       id: "proj-5",
       title: "Course Mujtamamadani",
       description: "Sebuah website kursus pondok pesantren mujtamamadani, dengan fitur design yang menarik dan juga responsive design.",
-      image: `${API_BASE}/uploads/projects/course.png`,
+      image: "/uploads/projects/course.png",
       tech: ["HTML", "CSS3", "Bootstrap", "Javascript"],
       github: "",
       demo: "https://course.mujtamamadani.ac.id"
@@ -118,11 +147,11 @@ export const DEFAULT_PORTFOLIO = {
       description: "Pengalaman dan tantangan baru dipercaya oleh sekolah mengikuti lomba LKS Web Technology."
     },
     {
-      id: "exp-3",
-      title: "Praktik Kerja Lapangan",
-      company: "Yuhlez Software House",
-      period: "2025 - Present",
-      description: "Berkolaborasi dan berkontribusi membuat website untuk real project client di YUHLEZ SOFTWARE HOUSE sebagai Backend Developer."
+      id: "exp-1792264379288",
+      title: "Magang Backend Developer",
+      company: "CV. Yuhlezz Software House",
+      period: "2025-2026",
+      description: "Pengalaman menjadi Backend Developer pada sebuah software house mengajarkan saya untuk langsung ke dalam project real industri dan kerja sama tim antar divisi dalam pengembangan sistem"
     }
   ],
   certifications: [
@@ -131,26 +160,46 @@ export const DEFAULT_PORTFOLIO = {
       title: "SERTIFIKAT KOMPETENSI LSP P3 JUNIOR WEB DEVELOPER",
       issuer: "BNSP / LSP P3",
       status: "Completed"
+    },
+    {
+      id: "cert-1792264415229",
+      title: "Sertifikat Magang Yuhlez Software House",
+      status: "Completed"
     }
   ],
   resume: {
     filename: "CV_Khamdi_Alfin.pdf",
-    url: `${API_BASE}/api/resume/download`,
+    url: "/uploads/resume/CV_Khamdi_Alfin.pdf",
     size: "240 KB",
     lastUpdated: "2026-10-18"
   }
 };
 
 export const fetchPortfolioData = async () => {
+  // 1. Coba fetch ke Backend API jika backend aktif
   try {
     const res = await fetch(`${API_BASE}/api/portfolio`);
-    if (!res.ok) throw new Error('API portfolio response not ok');
-    const data = await res.json();
-    return data;
+    if (res.ok) {
+      const data = await res.json();
+      return data;
+    }
   } catch (err) {
-    console.warn('Backend API not responding, using local fallback:', err.message);
-    return DEFAULT_PORTFOLIO;
+    // Backend tidak aktif (misal di Vercel publik), lanjut ke static file
   }
+
+  // 2. Coba fetch static public/data/portfolio.json (berjalan di Vercel tanpa backend)
+  try {
+    const staticRes = await fetch('/data/portfolio.json');
+    if (staticRes.ok) {
+      const staticData = await staticRes.json();
+      return staticData;
+    }
+  } catch (staticErr) {
+    console.warn('Gagal memuat static portfolio.json:', staticErr);
+  }
+
+  // 3. Fallback terakhir ke memory DEFAULT_PORTFOLIO
+  return DEFAULT_PORTFOLIO;
 };
 
 export const loginAdmin = async (password) => {

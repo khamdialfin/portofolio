@@ -3,14 +3,16 @@ import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import SectionTitle from '../ui/SectionTitle';
 import { usePortfolio } from '../../contexts/PortfolioContext';
-import { formatImageUrl, getApiBaseUrl } from '../../services/portfolioService';
+import { formatImageUrl } from '../../services/portfolioService';
 import fotoKhamdi from '../../assets/images/passfoto.jpg';
 import './About.css';
 
 const About = () => {
   const { portfolio } = usePortfolio();
   const about = portfolio?.about || {};
-  const resumeUrl = `${getApiBaseUrl()}/api/resume/download`;
+  const resumeUrl = portfolio?.resume?.url 
+    ? formatImageUrl(portfolio.resume.url) 
+    : '/uploads/resume/CV_Khamdi_Alfin.pdf';
 
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({
