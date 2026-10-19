@@ -116,6 +116,17 @@
   },
   "projects": [
     {
+      "id": "proj-1792401172762",
+      "title": "Kalkulator Ilmiah C++ ",
+      "description": "kalkulator ilmiah adalah aplikasi pemacahan masalah matematika tingkat lanjut menggunakan logika C++ dan berbasis Website",
+      "image": "/uploads/projects/project-1792401172712-105983636.png",
+      "tech": [
+        "C++"
+      ],
+      "github": "https://github.com/khamdialfin/kalkulatorI_ilmiah",
+      "demo": "https://khamdialfin.github.io/kalkulatorI_ilmiah/"
+    },
+    {
       "id": "proj-1792265744225",
       "title": "Arshaka Bakery",
       "description": "Website toko roti dengan fitur informasi toko, contact, lokasi, fitur pencarian produk, pilih dan order produk via whatsapp",
